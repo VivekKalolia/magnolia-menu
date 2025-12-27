@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Magnolia Cafe - Menu</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,103 +15,113 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent; /* Removes blue highlight on tap on Android/iOS */
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            /* Creating a soft gradient background matching your cafe's purple/pink theme */
             background: linear-gradient(135deg, #d8cce8 0%, #f4dce9 100%);
+            /* d-vh handles mobile address bars better than vh */
             min-height: 100vh;
+            min-height: 100dvh; 
             display: flex;
-            flex-direction: column; /* Ensures banner sits above card */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* Increased top padding slightly for the new banner space */
-            padding: 40px 20px 20px 20px; 
+            padding: 20px;
+            overflow-x: hidden; /* Prevents side scrolling */
         }
 
         /* NEW YEAR BANNER STYLES */
         .new-year-banner {
             font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
-            color: #795A88; /* Deep purple to match brand */
+            /* Clamp scales the font smoothly between 1.5rem and 2.5rem based on screen width */
+            font-size: clamp(1.8rem, 5vw, 2.5rem); 
+            color: #795A88;
             text-align: center;
-            margin-bottom: 25px; /* Spacing between banner and card */
+            margin-bottom: 20px;
             text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
             animation: float 3s ease-in-out infinite;
+            padding: 0 10px;
+            line-height: 1.2;
         }
         
-        /* Subtle floating animation for the banner text */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
             100% { transform: translateY(0px); }
         }
 
-
         /* CARD CONTAINER */
         .menu-card {
-            background: rgba(255, 255, 255, 0.65); /* Semi-transparent white */
-            backdrop-filter: blur(10px); /* Frosted glass effect */
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 20px;
             box-shadow: 0 10px 30px rgba(108, 92, 125, 0.15);
-            max-width: 450px;
             width: 100%;
+            max-width: 420px; /* Slightly tighter width for mobile focus */
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.8);
-            transition: transform 0.3s ease;
-            position: relative; /* Ensure card sits above background confetti if needed */
+            position: relative;
             z-index: 10;
-        }
-
-        .menu-card:hover {
-            transform: translateY(-5px);
         }
 
         /* IMAGE STYLING */
         .cover-image {
             width: 100%;
             height: auto;
-            border-radius: 15px;
+            border-radius: 12px;
             display: block;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            /* Prevents image drag on mobile */
+            pointer-events: none; 
+            user-select: none;
         }
 
         /* BUTTON STYLING */
         .menu-btn {
-            display: inline-block;
+            display: flex; /* Flex helps center text perfectly */
+            justify-content: center;
+            align-items: center;
             text-decoration: none;
-            background-color: #795A88; /* Darker purple from the logo text for contrast */
+            background-color: #795A88;
             color: #ffffff;
             font-weight: 600;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 18px 35px;
-            border-radius: 50px; /* Pill shape */
-            transition: all 0.3s ease;
+            padding: 16px 20px;
+            border-radius: 50px;
+            transition: transform 0.1s ease, background-color 0.2s;
             box-shadow: 0 4px 15px rgba(121, 90, 136, 0.3);
-            width: 100%; /* Full width button on mobile */
+            width: 100%;
         }
 
-        .menu-btn:hover {
-            background-color: #9b72aa; /* Lighter purple on hover */
-            box-shadow: 0 6px 20px rgba(121, 90, 136, 0.5);
-            transform: translateY(-2px);
+        /* Active state gives a "pressed" feeling on touch screens */
+        .menu-btn:active {
+            transform: scale(0.96);
+            background-color: #6a4d79;
         }
 
         /* FOOTER / ALLERGY NOTE */
         .footer-note {
-            margin-top: 20px;
-            font-size: 0.75rem;
+            margin-top: 15px;
+            font-size: 0.7rem;
             color: #666;
             line-height: 1.4;
+            opacity: 0.8;
         }
 
-        .heart {
-            color: #d17a9f;
+        .heart { color: #d17a9f; }
+
+        /* Small Screen Optimizations */
+        @media (max-width: 380px) {
+            body { padding: 15px; }
+            .menu-card { padding: 15px; }
+            .new-year-banner { margin-bottom: 15px; }
         }
     </style>
 </head>
@@ -136,11 +146,15 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     
     <script>
-        // Fire confetti burst when the page loads
+        // Confetti logic remains the same, adjusted slightly for mobile performance
         window.addEventListener('load', () => {
-            var duration = 3 * 1000; // Duration of the burst effect
+            // Check if user prefers reduced motion
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if(prefersReducedMotion) return;
+
+            var duration = 2.5 * 1000; // Slightly shorter duration for mobile
             var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            var defaults = { startVelocity: 25, spread: 360, ticks: 60, zIndex: 0, disableForReducedMotion: true };
 
             function randomInRange(min, max) {
               return Math.random() * (max - min) + min;
@@ -153,17 +167,16 @@
                 return clearInterval(interval);
               }
 
-              var particleCount = 50 * (timeLeft / duration);
+              var particleCount = 40 * (timeLeft / duration); // Fewer particles for better mobile FPS
               
-              // Confetti using your brand colors (Pink, Purple, Gold, White)
               confetti(Object.assign({}, defaults, { 
                   particleCount, 
-                  origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                  origin: { x: randomInRange(0.1, 0.4), y: Math.random() - 0.2 },
                   colors: ['#d17a9f', '#795A88', '#FFD700', '#ffffff']
               }));
               confetti(Object.assign({}, defaults, { 
                   particleCount, 
-                  origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                  origin: { x: randomInRange(0.6, 0.9), y: Math.random() - 0.2 },
                   colors: ['#d17a9f', '#795A88', '#FFD700', '#ffffff']
               }));
             }, 250);
