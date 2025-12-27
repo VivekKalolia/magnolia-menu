@@ -1,3 +1,110 @@
-<html>
-  <p><a href="Digital Menu - Magnolia Cafe.pdf">Click Here For Menu</a></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnolia Cafe - Menu</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            /* Creating a soft gradient background matching your cafe's purple/pink theme */
+            background: linear-gradient(135deg, #d8cce8 0%, #f4dce9 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* CARD CONTAINER */
+        .menu-card {
+            background: rgba(255, 255, 255, 0.65); /* Semi-transparent white */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(108, 92, 125, 0.15);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* IMAGE STYLING */
+        .cover-image {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            display: block;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* BUTTON STYLING */
+        .menu-btn {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #795A88; /* Darker purple from the logo text for contrast */
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 18px 35px;
+            border-radius: 50px; /* Pill shape */
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(121, 90, 136, 0.3);
+            width: 100%; /* Full width button on mobile */
+        }
+
+        .menu-btn:hover {
+            background-color: #9b72aa; /* Lighter purple on hover */
+            box-shadow: 0 6px 20px rgba(121, 90, 136, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER / ALLERGY NOTE */
+        .footer-note {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .heart {
+            color: #d17a9f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu-card">
+        <img src="1 - Cover Page-01.png" alt="Magnolia Cafe Menu Cover" class="cover-image">
+        
+        <a href="Digital Menu - Magnolia Cafe.pdf" class="menu-btn" target="_blank">
+            Open Full Menu
+        </a>
+
+        <div class="footer-note">
+            Made with <span class="heart">❤</span> by Magnolia Cafe
+        </div>
+    </div>
+
+</body>
 </html>
